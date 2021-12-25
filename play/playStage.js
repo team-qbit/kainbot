@@ -29,49 +29,54 @@ function playStage(stages, User, msg, userId, splittedMessage){
             msg.reply('현재 배치되어있는 캐릭터가 없습니다! `알피야 배치`로 캐릭터를 배치해조세요!');
             return;
         }
-        user.heart -= stage[stageNum].heart;
-        const characters = [];
-        for(const key in user.owningCharacters){
-            const character = user.owningCharacters[key];
-            if(characterNames.includes(character.name)){
-                characters.push(character);
-            }
-        }
-        const monsters = stage[stageNum].monsters;
-        let checker = 0;
-        function fight(){
-            for(const monster of monsters){
-                characters[0].hp -= monster.attack;
-                if(characters[0].hp < 1){
-                    characters.splice(0, 1);
-                }
-                if(characters.length == 0){
-                    msg.reply('**⚔ 클리어 실패**');
-                    checker++;
-                    return;
+        msg.reply('전투 진행중입니다...');
+        function play(){
+            user.heart -= stage[stageNum].heart;
+            const characters = [];
+            for(const key in user.owningCharacters){
+                const character = user.owningCharacters[key];
+                if(characterNames.includes(character.name)){
+                    characters.push(character);
                 }
             }
-            for(const character of characters){
-                monsters[0].hp -= character.attack;
-                if(monsters[0].hp < 1){
-                    monsters.splice(0, 1);
-                }
-                if(monsters.length == 0){
-                    if(stage[stageNum].number > user.highestStage){
-                        user.highestStage = stage[stageNum].number;
+            const monsters = stage[stageNum].monsters;
+            let checker = 0;
+            function fight(){
+                for(const monster of monsters){
+                    if(characters.length == 0){
+                        msg.reply('**⚔ 클리어 실패**');
+                        checker++;
+                        return;
                     }
-                    user.gold += stage[stageNum].reward.gold;
-                    user.diamond += stage[stageNum].reward.diamond;
-                    msg.reply('**🎉 클리어 성공!!**\n보상: \n골드 `' + stage[stageNum].reward.gold +'개`\n다이아 `' + stage[stageNum].reward.diamond + '개`');
-                    checker++;
-                    user.save();
-                    return;
+                    characters[0].hp -= monster.attack;
+                    if(characters[0].hp < 1){
+                        characters.splice(0, 1);
+                    }
+                }
+                for(const character of characters){
+                    if(monsters.length == 0){
+                        if(stage[stageNum].number > user.highestStage){
+                            user.highestStage = stage[stageNum].number;
+                        }
+                        user.gold += stage[stageNum].reward.gold;
+                        user.diamond += stage[stageNum].reward.diamond;
+                        msg.reply('**🎉 클리어 성공!!**\n보상: \n골드 `' + stage[stageNum].reward.gold +'개`\n다이아 `' + stage[stageNum].reward.diamond + '개`');
+                        checker++;
+                        user.save();
+                        return;
+                    }
+                    monsters[0].hp -= character.attack;
+                    if(monsters[0].hp < 1){
+                        monsters.splice(0, 1);
+                    }
                 }
             }
+            while(checker == 0){
+                fight();
+            }
         }
-        while(checker == 0){
-            fight();
-        }
+        const wait = require('util').promisify(setTimeout);
+        wait(3000).then(play);
     })
 }
 

@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
+require('dotenv').config();
+const password = process.env.DB_PASSWORD;
 
 mongoose
-  .connect("mongodb+srv://delightStudio:machoAirline999@project-beta.uzn9z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+  .connect("mongodb+srv://delightStudio:" + password + "@project-beta.uzn9z.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
   .then(() => {
     console.log("Connected to MongoDB");
   })

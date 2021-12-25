@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const { MessageActionRow, MessageButton } = require('discord.js');
 const client = new Discord.Client({ intents: [ Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES ] });
 const User = require('./db/db')
 const giveHeart = require('./db/giveHeart');
@@ -11,6 +12,7 @@ client.on('ready', () => {
     console.log('로그인 완료!');
     client.user.setActivity('한디리 해커톤 | 프로젝트 베타');
 });
+
 
 
 class Character {
@@ -71,8 +73,21 @@ client.on('messageCreate', (msg) => {
     if(msg.author.bot) return;
     const userId = msg.author.id;
     const splittedMessage = msg.content.split(' ');
-
-    if(msg.content == '알피야 테스트') msg.reply('히힛');
+    
+    if(msg.content == '알피야 테스트'){
+        const row = new MessageActionRow()
+        .addComponents(
+            new MessageButton()
+            .setCustomId('primary')
+            .setLabel('테스트!')
+            .setStyle('PRIMARY')
+            );
+            msg.reply({ content: '테스트!', components: [row] });
+            client.on('interactionCreate', interaction => {
+                if (!interaction.isButton()) return;
+                interaction.reply('상호작용 완료!')
+            });
+        }
 
     //회원가입
     if(msg.content == '알피야 회원가입'){
@@ -106,4 +121,4 @@ client.on('messageCreate', (msg) => {
 })
 
 
-client.login("OTE1OTc4NjQ5MzY1Mjc0NjQ1.YajdmA.Mjr142WTCbAPXAN-m3KNVwBFHc0");
+client.login(process.env.TOKEN);
