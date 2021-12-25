@@ -20,6 +20,7 @@ mongoose
       team: Object,
       item: Object,
       owningCharacters: Array,
+      piece: Number
   })
 
 module.exports = mongoose.model("User", UserSchema);

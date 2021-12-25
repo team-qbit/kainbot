@@ -29,7 +29,7 @@ function playStage(stages, User, msg, userId, splittedMessage){
             msg.reply('현재 배치되어있는 캐릭터가 없습니다! `알피야 배치`로 캐릭터를 배치해조세요!');
             return;
         }
-        msg.reply('전투 진행중입니다...');
+        msg.reply('전투를 진행 중입니다...');
         function play(){
             user.heart -= stage[stageNum].heart;
             const characters = [];

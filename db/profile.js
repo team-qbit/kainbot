@@ -14,7 +14,7 @@ function profile(User, userId, msg){
                         owningCharacter += ', ';
                     }
                 }
-                msg.reply('골드: `' + user.gold + '`\n다이아: `' + user.diamond + '`\n캐릭터: `'+ owningCharacter + '`\n클리어 스테이지: `' + user.highestStage + '`')
+                msg.reply('골드: `' + user.gold + '`개\n다이아: `' + user.diamond + '`개\n캐릭터: `'+ owningCharacter + '`\n클리어 스테이지: `' + user.highestStage + '`\n하트: `' + user.heart + '`개')
     })
 }
 

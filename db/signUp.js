@@ -19,6 +19,8 @@ function signUp(userId, User, msg){
             };
             userModel.item = {};
             userModel.owningCharacters = [];
+            userModel.level = 1;
+            userModel.piece = 0;
             userModel.save().then(() => {
                 console.log('신규 유저 등록');
                 msg.reply('🎈 회원가입이 완료됐습니다! 가입 기념 선물로 `1000골드`가 증정됐습니다!');
