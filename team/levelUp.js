@@ -1,4 +1,4 @@
-function levelUp(User, userId, splittedMessage, msg){
+function levelUp(User, userId, splittedMessage, msg, MessageActionRow){
     User.findOne({userId : userId})
     .then(user => {
         if(user == null){

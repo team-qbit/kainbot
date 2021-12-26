@@ -3,6 +3,7 @@ function giveHeart(User){
         users.forEach((user => {
             if(user.heart != 60){
                 user.heart += 1;
+                user.save();
             }
         }))
     })

@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
-const { MessageActionRow, MessageButton,MessageSelectMenu } = require('discord.js');
+const { MessageEmbed, MessageActionRow, MessageButton, MessageSelectMenu } = require('discord.js');
 const client = new Discord.Client({ intents: [ Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES ] });
 const User = require('./db/db')
 const giveHeart = require('./db/giveHeart');
+let page = {};
 
 setInterval(() => {
     giveHeart.giveHeart(User);
@@ -57,24 +58,27 @@ class Monster {
     }
 }
 
-const slime = new Monster('슬라임', 20, 2, 0);
-const dom = new Monster('도마뱀', 25, 3, 0);
-const icedom = new Monster('얼음 도마뱀', 25, 3, 2);
-const icebear = new Monster('눈곰', 35, 5, 3);
-const raplesia = new Monster('식인 라플레시아', 40, 2, 3);
-const oldtree = new Monster('천년 된 나무', 30, 5, 5);
-const stoneGolem = new Monster('스톤 골렘', 45, 8, 0);
-const goblin = new Monster('고블린', 30, 3, 4);
-const ikryong = new Monster('익룡', 40, 5, 1);
-const dragon = new Monster('드래곤', 50, 10, 1);
-const blueDragon = new Monster('청룡', 60, 12, 3);
-const whiteDragon = new Monster('백룡', 55, 15, 2);
+const slime = new Monster('슬라임', 20, 3, 0);
+const dom = new Monster('도마뱀', 25, 2, 0);
+const icedom = new Monster('얼음 도마뱀', 25, 5, 2);
+const icebear = new Monster('눈곰', 30, 8, 3);
+const raplesia = new Monster('식인 라플레시아', 32, 5, 0);
+const oldtree = new Monster('천년 된 나무', 35, 3, 5);
+const stoneGolem = new Monster('스톤 골렘', 45, 7, 0);
+const goblin = new Monster('고블린', 25, 12, 0);
+const ikryong = new Monster('익룡', 40, 13, 3);
+const dragon = new Monster('드래곤', 50, 18, 1);
+const blueDragon = new Monster('청룡', 60, 20, 3);
+const whiteDragon = new Monster('백룡', 50, 30, 0);
 
+function copyClass(originalClass){
+    return Object.assign({}, originalClass);
+}
 
 const stages = [
     {
         number : 1,
-        monsters : [slime],
+        monsters : [copyClass(slime)],
         heart : 3,
         reward : {
             gold : 100,
@@ -83,7 +87,7 @@ const stages = [
     },
     {
         number : 2,
-        monsters : [slime, slime, dom],
+        monsters : [copyClass(slime), copyClass(slime), copyClass(dom)],
         heart : 3,
         reward : {
             gold : 100,
@@ -92,7 +96,7 @@ const stages = [
     },
     {
         number : 3,
-        monsters : [slime, slime, dom, dom],
+        monsters : [copyClass(slime), copyClass(slime), copyClass(dom), copyClass(dom)],
         heart : 3,
         reward : {
             gold : 100,
@@ -101,7 +105,7 @@ const stages = [
     },
     {
         number : 4,
-        monsters : [slime, slime, icedom],
+        monsters : [copyClass(slime), copyClass(slime), copyClass(icedom)],
         heart : 4,
         reward : {
             gold : 110,
@@ -110,7 +114,7 @@ const stages = [
     },
     {
         number : 5,
-        monsters : [slime, slime, icedom, icedom],
+        monsters : [copyClass(slime), copyClass(slime), copyClass(icedom), copyClass(icedom)],
         heart : 4,
         reward : {
             gold : 110,
@@ -119,7 +123,7 @@ const stages = [
     },
     {
         number : 6,
-        monsters : [slime, icedom, icedom, icebear],
+        monsters : [copyClass(slime), copyClass(icedom), copyClass(icedom), copyClass(icebear)],
         heart : 4,
         reward : {
             gold : 110,
@@ -128,7 +132,7 @@ const stages = [
     },
     {
         number : 7,
-        monsters : [slime, slime, icedom, icedom, icebear, icebear],
+        monsters : [copyClass(slime), copyClass(slime), copyClass(icedom), copyClass(icedom), copyClass(icebear), copyClass(icebear)],
         heart : 4,
         reward : {
             gold : 110,
@@ -137,7 +141,7 @@ const stages = [
     },
     {
         number : 8,
-        monsters : [slime, slime, raplesia],
+        monsters : [copyClass(slime), copyClass(slime), copyClass(raplesia)],
         heart : 4,
         reward : {
             gold : 120,
@@ -146,7 +150,7 @@ const stages = [
     },
     {
         number : 9,
-        monsters : [raplesia, raplesia, raplesia],
+        monsters : [copyClass(raplesia), copyClass(raplesia), copyClass(raplesia)],
         heart : 4,
         reward : {
             gold : 120,
@@ -155,7 +159,7 @@ const stages = [
     },
     {
         number : 10,
-        monsters : [raplesia, oldtree],
+        monsters : [copyClass(raplesia), copyClass(oldtree)],
         heart : 4,
         reward : {
             gold : 120,
@@ -164,7 +168,7 @@ const stages = [
     },
     {
         number : 11,
-        monsters : [raplesia, raplesia, oldtree],
+        monsters : [copyClass(raplesia), copyClass(raplesia), copyClass(oldtree)],
         heart : 4,
         reward : {
             gold : 120,
@@ -173,7 +177,7 @@ const stages = [
     },
     {
         number : 12,
-        monsters : [raplesia, raplesia, oldtree, oldtree],
+        monsters : [copyClass(raplesia), copyClass(raplesia), copyClass(oldtree), copyClass(oldtree)],
         heart : 4,
         reward : {
             gold : 120,
@@ -182,7 +186,7 @@ const stages = [
     },
     {
         number : 13,
-        monsters : [raplesia, raplesia, oldtree, stoneGolem],
+        monsters : [copyClass(raplesia), copyClass(raplesia), copyClass(oldtree), copyClass(stoneGolem)],
         heart : 5,
         reward : {
             gold : 130,
@@ -191,7 +195,7 @@ const stages = [
     },
     {
         number : 14,
-        monsters : [raplesia, raplesia, oldtree, stoneGolem, goblin],
+        monsters : [copyClass(raplesia), copyClass(raplesia), copyClass(oldtree), copyClass(stoneGolem), copyClass(goblin)],
         heart : 5,
         reward : {
             gold : 130,
@@ -200,7 +204,7 @@ const stages = [
     },
     {
         number : 15,
-        monsters : [raplesia, raplesia, stoneGolem, goblin, stoneGolem],
+        monsters : [copyClass(raplesia), copyClass(raplesia), copyClass(stoneGolem), copyClass(goblin), copyClass(stoneGolem)],
         heart : 5,
         reward : {
             gold : 130,
@@ -209,7 +213,7 @@ const stages = [
     },
     {
         number : 14,
-        monsters : [slime, raplesia, raplesia, oldtree, goblin, goblin, goblin],
+        monsters : [copyClass(slime), copyClass(raplesia), copyClass(raplesia), copyClass(oldtree), copyClass(goblin), copyClass(goblin), copyClass(goblin)],
         heart : 5,
         reward : {
             gold : 130,
@@ -235,7 +239,7 @@ client.on('messageCreate', (msg) => {
 
     
     if(msg.content == '알피야 테스트'){
-        const row = new MessageActionRow()
+        /*const row = new MessageActionRow()
         .addComponents(
             new MessageSelectMenu()
                 .setCustomId('playGame')
@@ -254,8 +258,22 @@ client.on('messageCreate', (msg) => {
                         value: 'bag',
                     },
                 ])
-        );
-            msg.reply({ content: '테스트!', components: [row] });
+        );*/
+        const row = new MessageActionRow()
+			.addComponents(
+				new MessageButton()
+					.setCustomId('moreInfo')
+					.setLabel('Details')
+					.setStyle('PRIMARY'),
+			); 
+        const embed = new MessageEmbed()
+        .setColor('#0099ff')
+        .setTitle('Victory!')
+        .setURL('https://discord.js.org/')
+        .setAuthor('Battle Result', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsYFIJ5PjQUSpiJsMf_pWtM7xen2efVP7OFU-A_J-KOiS5e2EBgDOEi3yZl4R9r1zCEGQ&usqp=CAU', 'https://discord.js.org')
+        .setDescription('🎁 30 💎 2')
+        .setThumbnail('https://www.pngitem.com/pimgs/m/49-491416_winning-success-achievement-must-win-battles-icon-hd.png')
+            msg.reply({ embeds: [embed], components: [row] });
         }
 
     //회원가입
@@ -266,8 +284,9 @@ client.on('messageCreate', (msg) => {
 
     //내정보
     if(msg.content == '알피야 내정보'){
+        page[userId] = 0;
         const profile = require('./db/profile');
-        profile.profile(User, userId, msg)
+        profile.profile(User, userId, msg, MessageButton, MessageActionRow, MessageEmbed)
     }
 
     //뽑기
@@ -285,7 +304,7 @@ client.on('messageCreate', (msg) => {
     //플레이하기
     if(msg.content.startsWith('알피야 플레이')){
         const playStage = require('./play/playStage');
-        playStage.playStage(stages, User, msg, userId, splittedMessage);
+        playStage.playStage(stages, User, msg, userId, splittedMessage, MessageButton, MessageActionRow, MessageEmbed, client);
     }
 
     //레벨업
@@ -298,9 +317,46 @@ client.on('messageCreate', (msg) => {
 client.on('interactionCreate', interaction => {
     //console.log(interaction);
     a = interaction;
-    console.log(Object.keys(interaction))
-    if(interaction.customId == 'playGame'){
-        interaction.reply({content:interaction.values[0]});
+    const userId = interaction.user.id;
+    if(interaction.customId == 'moreInfo'){
+        interaction.update({content:'asdf',components:[],embeds:[]});
+        //interaction.reply({content:JSON.stringify(interaction.user)});
+    }
+    if(interaction.customId.startsWith('nextPage')&&interaction.customId != 'nextPage'+userId){
+        interaction.update({});
+        console.log('어딜남의꺼를;');
+    }
+    if(interaction.customId == 'nextPage'+userId){
+        page[userId]++;
+        const nowPage = page[userId];
+        let content = '';
+        const embed = new MessageEmbed()
+                .setColor('#0099ff')
+                .setAuthor('Character Stats', 'https://www.pngitem.com/pimgs/m/115-1153891_grim-reaper-icon-rpg-character-icon-png-transparent.png');
+        let row = [new MessageActionRow()
+			    .addComponents(
+				    new MessageButton()
+					    .setCustomId('nextPage'+userId)
+					    .setLabel('다음 페이지 ▶')
+					    .setStyle('PRIMARY')
+			    )];
+        const update = {components:row,embeds:[embed]}
+        User.findOne({userId : userId}).then(user=>{
+            const team = user.owningCharacters;
+            if(team.length==0){
+                content = '캐릭터가 아직 없으시네요!\n\u200b\n`도움말: 알피야 뽑기 [일반/고급/최고급]`';
+                row[0].components[0].setDisabled(true);
+            }else if(team[nowPage-1]==undefined){
+                content = '더 이상 캐릭터가 없으시네요!';
+                row[0].components[0].setDisabled(true);
+            }else{
+                const character = team[nowPage-1];
+                content = `**${character.name}**\n설명: ${character.description}\n스킬: ${character.skill}\n랭크: ${character.rank}\n체력: ${character.hp}\n공격력: ${character.attack}\n치유력: ${character.heal}\n레벨: ${character.level}`;
+                delete update.components;
+            }
+            embed.setDescription(content);
+            interaction.update(update);
+        });
     }
 });
 
